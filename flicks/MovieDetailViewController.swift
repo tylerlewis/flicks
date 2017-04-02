@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MovieDetailViewController.swift
 //  flicks
 //
 //  Created by Tyler Hackley Lewis on 3/31/17.
@@ -8,18 +8,22 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class MovieDetailViewController: UIViewController {
+    
+    
+    
+    @IBOutlet weak var movieLabel: UILabel!
+    
+    var index: Int!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        movieLabel.text = ("You tapped the cell at index \(index!)")
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
-
 }
-
