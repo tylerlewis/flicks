@@ -19,6 +19,6 @@ Image loading on movie details page needs to be improved to not make another net
 
 Walkthrough of all user stories:
 
-![Video Walkthrough](anim_rotten_tomatoes.gif)
+![Video Walkthrough](http://i.imgur.com/edYkg9q.gifv)
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
