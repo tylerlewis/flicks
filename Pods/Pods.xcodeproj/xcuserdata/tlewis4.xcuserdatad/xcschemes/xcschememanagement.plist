@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>KVLoading.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-flicks.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -17,7 +22,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>605BE2CBB1B4974C24BF69149203050D</key>
+		<key>790FD262AEA1555E106B79054695BACB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C9D49E8ACEA8497269F8880B990BA347</key>
 		<dict>
 			<key>primary</key>
 			<true/>
