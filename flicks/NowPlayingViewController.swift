@@ -80,7 +80,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let movieReleaseDateString = movieDetails.value(forKeyPath: "release_date") as? String
         let movieReleaseDate = dateFormatter.date(from:movieReleaseDateString!)
-        dateFormatter.dateFormat = ""
+        dateFormatter.dateFormat = "MMMM d, yyyy"
         movieDetailViewController.movieReleaseDate = dateFormatter.string(from: movieReleaseDate!)
         
         movieDetailViewController.movieOverview = movieDetails.value(forKeyPath: "overview") as? String
