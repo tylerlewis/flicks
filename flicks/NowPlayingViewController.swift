@@ -13,9 +13,15 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
 
     @IBOutlet weak var nowPlayingTableView: UITableView!
     
-    let refreshControl = UIRefreshControl()
+    @IBOutlet weak var networkErrorView: UIView!
     
-    var loadingScreen: UIView?
+    @IBOutlet weak var retryGetMoviesButton: UIButton!
+    
+    @IBAction func onRetryGetMoviesButtonTap(_ sender: Any) {
+        getNowPlayingMovies(fromRefresh: false)
+    }
+    
+    let refreshControl = UIRefreshControl()
     
     var newMovies: [NSDictionary] = []
     
@@ -25,11 +31,6 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
         // Initialize the refresh control
         refreshControl.addTarget(self, action: #selector(refreshNowPlayingMovies(_:)), for: UIControlEvents.valueChanged)
         nowPlayingTableView.insertSubview(refreshControl, at: 0)
-        
-        // Initialize loading state for fetching the movies
-        loadingScreen = UIView(frame: nowPlayingTableView.frame)
-        loadingScreen!.backgroundColor = UIColor.black
-        loadingScreen!.alpha = 0.8
         
         getNowPlayingMovies(fromRefresh: false)
 
@@ -91,7 +92,9 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
         if !fromRefresh {
             KVLoading.show()
         }
-
+        
+        self.networkErrorView.isHidden = true
+        
         let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed")
         let request = URLRequest(url: url!)
         let session = URLSession(
@@ -103,19 +106,19 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
         let task : URLSessionDataTask = session.dataTask(
             with: request as URLRequest,
             completionHandler: { (data, response, error) in
-                if let data = data {
+                if error != nil {
+                    self.networkErrorView.isHidden = false
+                } else if let data = data {
                     if let responseDictionary = try! JSONSerialization.jsonObject(
                         with: data, options:[]) as? NSDictionary {
                         
                         self.newMovies = responseDictionary["results"] as! [NSDictionary]
                         
                         self.nowPlayingTableView.reloadData()
-                        
-                        KVLoading.hide()
-                        
                     }
                 }
-//                self.loadingScreen?.removeFromSuperview()
+                
+                KVLoading.hide()
                 
                 if fromRefresh {
                     self.refreshControl.endRefreshing()
