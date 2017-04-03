@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import AFNetworking
 
 class MovieDetailViewController: UIViewController {
+    
+    @IBOutlet var movieDetailContainerView: UIView!
     
     @IBOutlet weak var movieDetailScrollView: UIScrollView!
     
@@ -20,6 +23,8 @@ class MovieDetailViewController: UIViewController {
     
     @IBOutlet weak var movieOverviewLabel: UILabel!
     
+    var posterUrl: String!
+    
     var movieTitle: String!
     
     var movieReleaseDate: String!
@@ -28,6 +33,8 @@ class MovieDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setBackgroundImage()
         
         movieTitleLabel.text = movieTitle ?? ""
         movieReleseDateLabel.text = movieReleaseDate ?? ""
@@ -45,6 +52,30 @@ class MovieDetailViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    func setBackgroundImage() {
+        // TODO - Figure out how to get the image from cache
+        let posterUrlString: String! = "https://image.tmdb.org/t/p/w342\(self.posterUrl!)?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed"
+
+        let url = URL(string: posterUrlString)
+        let request = URLRequest(url: url!)
+        let session = URLSession(
+            configuration: URLSessionConfiguration.default,
+            delegate:nil,
+            delegateQueue:OperationQueue.main
+        )
+        
+        let task : URLSessionDataTask = session.dataTask(
+            with: request as URLRequest,
+            completionHandler: { (data, response, error) in
+                if let data = data {
+                    let poster = UIImage(data: data)
+                    self.movieDetailContainerView.backgroundColor = UIColor(patternImage: poster!)
+                }
+            }
+        );
+        task.resume()
     }
 
 }

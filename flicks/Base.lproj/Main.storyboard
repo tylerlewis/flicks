@@ -108,7 +108,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <view opaque="NO" contentMode="scaleToFill" misplaced="YES" id="ef4-Vq-pL3">
-                                        <rect key="frame" x="16" y="393" width="343" height="135"/>
+                                        <rect key="frame" x="16" y="401" width="343" height="135"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="y2Y-aS-0C4">
@@ -142,6 +142,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="wsm-5c-6XL"/>
                     <connections>
+                        <outlet property="movieDetailContainerView" destination="Wgl-8k-fwi" id="QTm-A5-gIo"/>
                         <outlet property="movieDetailScrollView" destination="M2K-tm-D3T" id="586-oK-QKD"/>
                         <outlet property="movieDetailView" destination="ef4-Vq-pL3" id="96Q-Pn-O67"/>
                         <outlet property="movieOverviewLabel" destination="LXx-Gb-ylm" id="e5W-fZ-vbo"/>

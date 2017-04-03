@@ -74,6 +74,8 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
 
         let movieDetailViewController = segue.destination as! MovieDetailViewController
     
+        movieDetailViewController.posterUrl = movieDetails.value(forKeyPath: "poster_path") as? String
+        
         movieDetailViewController.movieTitle = movieDetails.value(forKeyPath: "title") as? String
         
         let dateFormatter = DateFormatter()
