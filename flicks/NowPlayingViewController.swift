@@ -73,9 +73,18 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
 
         let movieDetailViewController = segue.destination as! MovieDetailViewController
     
+        movieDetailViewController.movieTitle = movieDetails.value(forKeyPath: "title") as? String
         
-
-        movieDetailViewController.index = index
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US")
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let movieReleaseDateString = movieDetails.value(forKeyPath: "release_date") as? String
+        let movieReleaseDate = dateFormatter.date(from:movieReleaseDateString!)
+        dateFormatter.dateFormat = ""
+        movieDetailViewController.movieReleaseDate = dateFormatter.string(from: movieReleaseDate!)
+        
+        movieDetailViewController.movieOverview = movieDetails.value(forKeyPath: "overview") as? String
+        
     }
     
     func getNowPlayingMovies(fromRefresh: Bool) {
@@ -101,6 +110,8 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
                         self.newMovies = responseDictionary["results"] as! [NSDictionary]
                         
                         self.nowPlayingTableView.reloadData()
+                        
+                        KVLoading.hide()
                         
                     }
                 }

@@ -10,16 +10,24 @@ import UIKit
 
 class MovieDetailViewController: UIViewController {
     
+    @IBOutlet weak var movieTitleLabel: UILabel!
     
+    @IBOutlet weak var movieReleseDateLabel: UILabel!
     
-    @IBOutlet weak var movieLabel: UILabel!
+    @IBOutlet weak var movieOverviewLabel: UILabel!
     
-    var index: Int!
-
+    var movieTitle: String!
+    
+    var movieReleaseDate: String!
+    
+    var movieOverview: String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        movieLabel.text = ("You tapped the cell at index \(index!)")
+        movieTitleLabel.text = movieTitle ?? ""
+        movieReleseDateLabel.text = movieReleaseDate ?? ""
+        movieOverviewLabel.text = movieOverview ?? ""
     }
 
     override func didReceiveMemoryWarning() {
