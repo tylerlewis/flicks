@@ -19,6 +19,6 @@ Image loading on movie details page needs to be improved to not make another net
 
 Walkthrough of all user stories:
 
-<img src="http://i.imgur.com/edYkg9q.gifv" title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src="http://i.imgur.com/edYkg9q.gif" title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
