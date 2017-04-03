@@ -10,38 +10,28 @@ import UIKit
 
 class NowPlayingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-    @IBOutlet weak var nowPlayingTableView: UITableView!    
+    @IBOutlet weak var nowPlayingTableView: UITableView!
+    
+    let refreshControl = UIRefreshControl()
+    
+    var loadingScreen: UIView?
     
     var newMovies: [NSDictionary] = []
-    
-    var hasLoadedMovies: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed")
-        let request = URLRequest(url: url!)
-        let session = URLSession(
-            configuration: URLSessionConfiguration.default,
-            delegate:nil,
-            delegateQueue:OperationQueue.main
-        )
-
-        let task : URLSessionDataTask = session.dataTask(
-            with: request as URLRequest,
-            completionHandler: { (data, response, error) in
-                if let data = data {
-                    if let responseDictionary = try! JSONSerialization.jsonObject(
-                        with: data, options:[]) as? NSDictionary {
-                                                
-                        self.newMovies = responseDictionary["results"] as! [NSDictionary]
-                        
-                        self.nowPlayingTableView.reloadData()
-                        
-                    }
-                }
-        });
-        task.resume()
+        // Initialize the refresh control
+        refreshControl.addTarget(self, action: #selector(refreshNowPlayingMovies(_:)), for: UIControlEvents.valueChanged)
+        nowPlayingTableView.insertSubview(refreshControl, at: 0)
+        
+        // Show loading state while we fetch the movies
+        loadingScreen = UIView(frame: nowPlayingTableView.frame)
+        loadingScreen!.backgroundColor = UIColor.black
+        loadingScreen!.alpha = 0.8
+        nowPlayingTableView.addSubview(loadingScreen!)
+        
+        getNowPlayingMovies()
 
         nowPlayingTableView.delegate = self
         nowPlayingTableView.dataSource = self
@@ -84,6 +74,40 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
         let movieDetailViewController = segue.destination as! MovieDetailViewController
         // Pass on the data to the Detail ViewController by setting it's indexPathRow value
         movieDetailViewController.index = index
+    }
+    
+    func getNowPlayingMovies() {
+        let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed")
+        let request = URLRequest(url: url!)
+        let session = URLSession(
+            configuration: URLSessionConfiguration.default,
+            delegate:nil,
+            delegateQueue:OperationQueue.main
+        )
+        
+        let task : URLSessionDataTask = session.dataTask(
+            with: request as URLRequest,
+            completionHandler: { (data, response, error) in
+                if let data = data {
+                    if let responseDictionary = try! JSONSerialization.jsonObject(
+                        with: data, options:[]) as? NSDictionary {
+                        
+                        self.newMovies = responseDictionary["results"] as! [NSDictionary]
+                        
+                        self.nowPlayingTableView.reloadData()
+                        
+                    }
+                }
+                self.loadingScreen?.removeFromSuperview()
+                
+                self.refreshControl.endRefreshing()
+            }
+        );
+        task.resume()
+    }
+    
+    func refreshNowPlayingMovies(_ refreshControl: UIRefreshControl) {
+        getNowPlayingMovies()
     }
 
 }
